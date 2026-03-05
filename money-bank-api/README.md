@@ -50,32 +50,6 @@ Recuerde adicionar los Paquetes (Nugets) necesarios para acceder a la base de da
 - Microsoft.EntityFrameworkCore.Tools
 - MySql.EntityFrameworkCore (asegurese de que sea esta y no otra)
 
-# Contexto
-
-Utilice el siguiente Contexto para enlazar el modelo a la base de datos basandose en la clase **AppDbContext**
-
-```csharp
-public class AppDbContext : DbContext
-{
-    public AppDbContext()
-    {
-    }
-
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
-    {
-    }
-
-    public DbSet<Account> Accounts { get; set; }
-}
-```
-
-Recuerde agregar el contexto de la base de datos al Scope de la aplicacion en la clase **Program**
-
-```csharp
-// Add DBContext
-builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(builder.Configuration.GetConnectionString("CnnStr")!));
-```
-
 # Controlador
 
 Asegure que el Nuevo controlador El controlador **AccountsController** de tipo **API**, adicionando Acciones de Entity Framework, utilizando el Modelo de **Account** y el contexto de **AppDbContext**.
@@ -240,8 +214,6 @@ Sin contenido
 
 # Acciones de Cajero
 
-Para cubrir las transcciones propias del cajero se deben implementar los endPoints para Deposito y Retiro, utilizando el Modelo **Transaction** para enviar los datos.
-
 ```csharp
 public class Transaction
 {
@@ -267,10 +239,6 @@ PUT /api/Accounts/{id}/Deposit
 }
 ```
 
-### Response
-
-Sin Contenido
-
 ## Retiro
 
 ### Metodo
@@ -287,25 +255,9 @@ PUT /api/Accounts/{id}/Withdrawal
 }
 ```
 
-### Response
-
-Sin Contenido
-
-# Consideraciones
-
-- Al Crear la Cuenta debe validar los campos requeridos, tipos y longitudes ademas que debe validar que el Balance debe ser Mayor a Cero para aperturar la Cuenta, de lo contrario debe retornar un **BadRequest**, Con el Mensaje: "El Balance debe ser mayor a cero".
-- El Valor Maximo de Sobregiro (MAX_OVERDRAFT) es de $1,000,000.00 (Un Millon)
-- Al Crear una Cuenta de Ahorros el Valor del Balance es igual al valor inicial de la apertura
-- Al Crear una cuenta Corriente, El valor del Balance inicial, es igual al Valor Ingresado mas el Valor Maximo de sobregiro, Por ejemplo si apertura una cuenta con un valor de $500,000.00 al crear la cuenta esta se crea sumandole el Monto Maximo de sobregiro, quedando entonces con un Valor Inicial de $1,500,000.00
-- Al Realizar un Deposito y la cuenta es de Ahorros, el Valor del Balance se incrementa en el valor Depositado
-- Al realizar un Deposito y la cuenta es Corriente, el Valor del Balance es igual al Valor valor actal mas el valor depositado y si el sobregiro es mayor a cero y el balance actualizado es menor que el MAX_OVERDRAFT, entonce el valor del sobregiro se actualiza con la diferencia del MAX_OVERDRAFT y el BAlance actualizado.
-- Debe retornar un **BadRequest** con el Mensaje de "Fondos Insificientes" si al momento de retirar el valor de Retiro es superior al Valor actual del Balance
-- Tenga Presente que los Mensajes de Error o de Exception deben utilizar la estructura de ErrorDetails
--
-
 # Ejemplos
 
-A continuacion mostraremos algunos ejemplos de la Logica de Deposito y Retiro para los tipos de cuentas.
+A continuación algunos ejemplos de la Logica de Deposito y Retiro para los tipos de cuentas.
 
 ## Cuenta de Ahorros / Deposito
 
@@ -398,18 +350,3 @@ else
     "Fondos Insuficientes"
 }
 ```
-
-# Condiciones
-
-- Construya un Sitio Web llamado MoneyBamkWeb-nickname que permita consumir el microservicio MoneyBankService y soporte todas las opciones expuestas
-- El Sitio Web debe Desplegarse en AWS com oun sitio Normal , no como un Container
-- El Microservicio debe ser publicado utilizando Contenedores
-- La base de datos debe prublicarse somo un container
-- Ejecute la colleccion de POSTMAN con todas las Pruebas Necesarias para validar el Servicio
-
-# Observaciones
-
-- El Codigo debe quedar Cero errores y Cero Warnings
-- Debe Implementar el codigo utilizando Clean Code, principios SOLID y Buenas practicas de programacion
-- Debe ejecutar la collecion de POSTMAN con todas las Pruebas Necesarias para probrar el Servicio
-- Construya un Script que permita corrar la base de datos y limpiar indices y demas para poder ejecutar las pruebas constantemente
