@@ -1,6 +1,6 @@
 # 🏦 MoneyBank API Microservice
 
-Este proyecto implementa un microservicio transaccional bancario robusto utilizando **.NET Core** y **Clean Architecture**. El sistema gestiona cuentas bancarias (Ahorros y Corrientes) y procesa transacciones financieras (Depósitos y Retiros) aplicando reglas de negocio complejas como validación de sobregiros y fondos insuficientes.
+Este proyecto implementa un microservicio transaccional bancario robusto utilizando **.NET Core** y **Clean Architecture**. El sistema gestiona el ciclo de vida de cuentas bancarias (Ahorros y Corrientes) y procesa transacciones financieras (Depósitos y Retiros) aplicando reglas de negocio complejas, como validación de sobregiros y control de fondos.
 
 ## 🛠️ Tecnologías
 
@@ -14,7 +14,7 @@ Este proyecto implementa un microservicio transaccional bancario robusto utiliza
 
 ### 1. Base de Datos
 
-El proyecto requiere una instancia de MySQL. Ejecute los scripts ubicados en la carpeta de base de datos en el siguiente orden:
+El proyecto requiere una instancia de MySQL. Ejecute los scripts ubicados en la carpeta de base de datos en el siguiente orden para preparar el entorno:
 
 1.  `01_Create_Database.sql`
 2.  `02_Create_User.sql`
